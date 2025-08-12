@@ -1,0 +1,22 @@
+Kaoruko/
+│  .env                  # เก็บ TOKEN
+│  package.json          # รายละเอียดโปรเจกต์ + dependencies
+│  package-lock.json     # lock dependencies
+│  index.js              # main file เริ่มรันบอท
+│  responses.js          # เก็บประโยคตอบกลับทุกโหมด (สุภาพน่ารัก)
+│
+├─ config/
+│   └─ serverConfig.json # การตั้งค่าเซิร์ฟเวอร์ เช่น prefix, ช่อง welcome
+│
+├─ commands/
+│   └─ basic/
+│        ├─ ping.js          # ตรวจ latency
+│        ├─ help.js          # แสดงคำสั่งทั้งหมด
+│        ├─ clear.js         # ลบข้อความ
+│        ├─ serverinfo.js    # ข้อมูลเซิร์ฟเวอร์
+│        └─ userinfo.js      # ข้อมูลผู้ใช้
+│
+└─ events/
+    ├─ guildMemberAdd.js     # ระบบต้อนรับ
+    ├─ guildMemberRemove.js  # ระบบบอกลา
+    └─ messageCreate.js      # ตรวจจับ @บอท + ระบบโต้ตอบคำถาม/บอกเล่า
