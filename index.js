@@ -1,15 +1,23 @@
-// index.js (เพิ่มส่วนนี้ด้านบนก่อนสร้าง Client)
+// index.js (ส่วนบนสุดก่อนสร้าง Client)
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const express = require('express'); // <<-- เพิ่ม
+const express = require('express');
 const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
 const responses = require('./responses');
 
-// ----- Keep-Alive Web Server (กัน Replit หลับ) -----
+// ---------- Keep-Alive / Health ----------
 const app = express();
-app.get('/', (req, res) => res.send('OK - Bot is running ✅'));
-const PORT = process.env.PORT || 3000;
+app.disable('x-powered-by');
+
+// ตอบ 200 เร็ว ๆ สำหรับทั้ง GET และ HEAD (UptimeRobot บางทีส่ง HEAD)
+app.get('/', (req, res) => res.status(200).send('OK'));
+app.head('/', (req, res) => res.status(200).end());
+
+// เผื่ออยากแยก health endpoint ชัด ๆ
+app.get('/health', (req, res) => res.status(200).json({ status: 'ok' }));
+
+const PORT = process.env.PORT || 3000; // Render จะใส่ PORT มาให้เอง
 app.listen(PORT, () => console.log(`Keep-alive server on :${PORT}`));
 
 // สร้าง Client
@@ -55,3 +63,4 @@ if (fs.existsSync(eventsPath)) {
 client.login(process.env.TOKEN)
     .then(() => console.log("กำลังเชื่อมต่อกับ Discord... 🌸"))
     .catch(err => console.error("❌ ไม่สามารถเชื่อมต่อ Discord ได้ กรุณาตรวจสอบ TOKEN ในไฟล์ .env\n", err));
+
